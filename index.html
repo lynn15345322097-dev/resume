@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>个人简历 - 张三</title>
+  <style>
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+      color: #1d1d1f;
+      background: #fafafa;
+      line-height: 1.7;
+    }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .section {
+      padding: 80px 0;
+    }
+    .section-title {
+      font-size: 28px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 48px;
+      color: #1d1d1f;
+      position: relative;
+    }
+    .section-title::after {
+      content: "";
+      display: block;
+      width: 48px;
+      height: 3px;
+      background: #3b82f6;
+      border-radius: 2px;
+      margin: 12px auto 0;
+    }
+
+    /* ===== Navigation ===== */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid #e5e7eb;
+      z-index: 100;
+    }
+    .navbar .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 60px;
+    }
+    .nav-logo {
+      font-size: 20px;
+      font-weight: 700;
+      color: #3b82f6;
+    }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+    }
+    .nav-links a {
+      font-size: 14px;
+      color: #6b7280;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #3b82f6; }
+
+    /* Hamburger */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #1d1d1f;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+
+    /* ===== Hero ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 100px 24px 80px;
+      background: linear-gradient(135deg, #f0f4ff 0%, #fafafa 100%);
+    }
+    .hero-content h1 {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: #1d1d1f;
+    }
+    .hero-content p {
+      font-size: 20px;
+      color: #6b7280;
+      margin-bottom: 36px;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-block;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+    }
+    .btn-primary {
+      background: #3b82f6;
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: #2563eb;
+      transform: translateY(-1px);
+    }
+    .btn-outline {
+      background: transparent;
+      color: #3b82f6;
+      border: 2px solid #3b82f6;
+    }
+    .btn-outline:hover {
+      background: #3b82f6;
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    /* ===== About ===== */
+    .about { background: #fff; }
+    .about-text {
+      max-width: 720px;
+      margin: 0 auto;
+      font-size: 16px;
+      color: #4b5563;
+      text-align: center;
+    }
+    .about-text p + p { margin-top: 16px; }
+
+    /* ===== Skills ===== */
+    .skills { background: #fafafa; }
+    .skill-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .skill-tag {
+      display: inline-block;
+      padding: 10px 22px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #374151;
+      transition: all 0.2s;
+    }
+    .skill-tag:hover {
+      border-color: #3b82f6;
+      color: #3b82f6;
+      transform: translateY(-2px);
+    }
+
+    /* ===== Portfolio ===== */
+    .portfolio { background: #fff; }
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 28px;
+    }
+    .project-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 32px 28px;
+      transition: all 0.25s;
+    }
+    .project-card:hover {
+      border-color: #d1d5db;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      transform: translateY(-3px);
+    }
+    .project-card h3 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .project-card .tech {
+      font-size: 13px;
+      color: #3b82f6;
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+    .project-card p {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    .project-card .btn-small {
+      display: inline-block;
+      padding: 8px 20px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      background: #3b82f6;
+      color: #fff;
+      transition: background 0.2s;
+    }
+    .project-card .btn-small:hover { background: #2563eb; }
+
+    /* ===== Experience ===== */
+    .experience { background: #fafafa; }
+    .timeline {
+      max-width: 680px;
+      margin: 0 auto;
+      position: relative;
+      padding-left: 32px;
+    }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 7px;
+      top: 4px;
+      bottom: 4px;
+      width: 2px;
+      background: #d1d5db;
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 36px;
+    }
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -26px;
+      top: 6px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #3b82f6;
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 2px #3b82f6;
+    }
+    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-date {
+      font-size: 13px;
+      color: #3b82f6;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .timeline-item h3 {
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .timeline-item .org {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 8px;
+    }
+    .timeline-item p {
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    /* ===== Contact ===== */
+    .contact { background: #fff; }
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 28px;
+    }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+      color: #4b5563;
+      transition: color 0.2s;
+    }
+    .contact-item:hover { color: #3b82f6; }
+    .contact-item svg {
+      flex-shrink: 0;
+    }
+
+    /* ===== Footer ===== */
+    .footer {
+      text-align: center;
+      padding: 32px 24px;
+      font-size: 13px;
+      color: #9ca3af;
+      background: #fafafa;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      .nav-links {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        gap: 0;
+        background: rgba(255,255,255,0.98);
+        border-bottom: 1px solid #e5e7eb;
+        transform: translateY(-110%);
+        transition: transform 0.3s;
+        padding: 8px 0;
+      }
+      .nav-links.open { transform: translateY(0); }
+      .nav-links a {
+        display: block;
+        padding: 14px 24px;
+        font-size: 15px;
+        border-bottom: 1px solid #f3f4f6;
+      }
+      .nav-links a:last-child { border-bottom: none; }
+      .nav-toggle { display: flex; }
+
+      .hero-content h1 { font-size: 34px; }
+      .hero-content p { font-size: 17px; }
+      .section { padding: 60px 0; }
+      .section-title { font-size: 24px; margin-bottom: 36px; }
+      .portfolio-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-content h1 { font-size: 28px; }
+      .hero-content p { font-size: 15px; }
+      .btn { padding: 10px 22px; font-size: 14px; }
+      .contact-links { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Navigation ===== -->
+  <nav class="navbar" id="navbar" role="navigation">
+    <div class="container">
+      <div class="nav-logo">Portfolio</div>
+      <button class="nav-toggle" id="navToggle" aria-label="切换导航菜单">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#hero">首页</a></li>
+        <li><a href="#about">关于我</a></li>
+        <li><a href="#skills">技能</a></li>
+        <li><a href="#portfolio">作品集</a></li>
+        <li><a href="#experience">经历</a></li>
+        <li><a href="#contact">联系方式</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== Hero ===== -->
+  <section class="hero" id="hero">
+    <div class="hero-content">
+      <h1>张三</h1>
+      <p>AI 应用开发学习者 / 前端开发爱好者</p>
+      <div class="hero-buttons">
+        <a href="#portfolio" class="btn btn-primary">查看作品</a>
+        <a href="#contact" class="btn btn-outline">联系我</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== About ===== -->
+  <section class="about section" id="about">
+    <div class="container">
+      <h2 class="section-title">关于我</h2>
+      <div class="about-text">
+        <p>
+          你好！我是 <strong>张三</strong>，一名热爱技术与创造的 <strong>在校学生 / 前端开发者</strong>。
+          目前专注于 AI 应用开发、前端工程化与交互设计，善于将创意转化为可用的产品。
+        </p>
+        <p>
+          我的技术栈以 React 生态为核心，同时熟悉 Python、Node.js 等后端技术，
+          对 AI 工具与 Prompt Engineering 有持续学习与实践。我相信好的技术作品来源于
+          对细节的执着和对用户的理解。
+        </p>
+        <p>
+          课余时间我喜欢探索新技术、参加 Hackathon，也会把学习中的灵感写成博客分享出来。
+          期待在未来的工作中，用技术创造真正的价值。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Skills ===== -->
+  <section class="skills section" id="skills">
+    <div class="container">
+      <h2 class="section-title">技能</h2>
+      <div class="skill-grid">
+        <span class="skill-tag">HTML</span>
+        <span class="skill-tag">CSS</span>
+        <span class="skill-tag">JavaScript</span>
+        <span class="skill-tag">React</span>
+        <span class="skill-tag">TypeScript</span>
+        <span class="skill-tag">Node.js</span>
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">Git</span>
+        <span class="skill-tag">AI Tools</span>
+        <span class="skill-tag">Prompt Engineering</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Portfolio ===== -->
+  <section class="portfolio section" id="portfolio">
+    <div class="container">
+      <h2 class="section-title">作品集</h2>
+      <div class="portfolio-grid">
+
+        <div class="project-card">
+          <h3>AI 图片处理工具</h3>
+          <div class="tech">React + Node.js + Replicate API</div>
+          <p>集成多种 AI 模型，支持图片放大、背景移除等功能。用户上传图片后一键处理，快速获取结果。</p>
+          <a href="#" class="btn-small">查看项目</a>
+        </div>
+
+        <div class="project-card">
+          <h3>青少年编程教育平台</h3>
+          <div class="tech">Next.js + Supabase + shadcn/ui</div>
+          <p>面向青少年的编程学习平台，提供互动式课程与练习系统。兼具童趣设计风格与良好学习体验。</p>
+          <a href="#" class="btn-small">查看项目</a>
+        </div>
+
+        <div class="project-card">
+          <h3>学术信息追踪助手</h3>
+          <div class="tech">Python + macOS Automation + Skill System</div>
+          <p>自动提取微信公众号学术会议征稿信息，整理至 Excel 与提醒事项，大幅提升信息管理效率。</p>
+          <a href="#" class="btn-small">查看项目</a>
+        </div>
+
+        <div class="project-card">
+          <h3>个人博客系统</h3>
+          <div class="tech">React + TypeScript + Vite</div>
+          <p>基于 React 的轻量化个人博客，支持 Markdown 渲染、标签分类与全文搜索。界面简洁专注。</p>
+          <a href="#" class="btn-small">查看项目</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Experience ===== -->
+  <section class="experience section" id="experience">
+    <div class="container">
+      <h2 class="section-title">经历</h2>
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <div class="timeline-date">2025 - 至今</div>
+          <h3>前端开发实习生</h3>
+          <div class="org">某某科技有限公司</div>
+          <p>参与公司核心产品的前端开发，负责组件库维护、性能优化与用户体验改进。与团队协作完成多个功能模块的上线。</p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-date">2024 - 2025</div>
+          <h3>AI 应用开发项目</h3>
+          <div class="org">个人项目 / 课程设计</div>
+          <p>独立开发多个 AI 工具类 Web 应用，涉及图像处理、文生图等场景。使用 React + Node.js 全栈开发，集成第三方 API。</p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-date">2023 - 2024</div>
+          <h3>前端开发初学者 → 独立开发者</h3>
+          <div class="org">自主学习路径</div>
+          <p>系统学习 HTML/CSS/JavaScript、React、TypeScript 等技术栈，通过实际项目驱动学习，逐步建立个人作品集。</p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-date">2022 - 至今</div>
+          <h3>XX 大学 · 计算机科学与技术</h3>
+          <div class="org">本科 / 在校生</div>
+          <p>主修计算机科学，课余重点钻研前端开发与 AI 应用方向。多次参与校内 Hackathon 并获奖。</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Contact ===== -->
+  <section class="contact section" id="contact">
+    <div class="container">
+      <h2 class="section-title">联系方式</h2>
+      <div class="contact-links">
+        <a href="mailto:zhangsan@example.com" class="contact-item">
+          <!-- Email icon -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+          zhangsan@example.com
+        </a>
+        <a href="https://github.com/zhangsan" target="_blank" rel="noopener noreferrer" class="contact-item">
+          <!-- GitHub icon -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+          </svg>
+          github.com/zhangsan
+        </a>
+        <a href="https://your-blog.com" target="_blank" rel="noopener noreferrer" class="contact-item">
+          <!-- Globe icon -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          your-blog.com
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    &copy; 2026 张三. All rights reserved.
+  </footer>
+
+  <script>
+    // Hamburger toggle
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    navToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+
+    // Click a nav link → close the mobile menu
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+      });
+    });
+
+    // Close nav on outside click (optional)
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.navbar')) {
+        navLinks.classList.remove('open');
+      }
+    });
+  </script>
+</body>
+</html>
